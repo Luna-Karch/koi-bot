@@ -55,7 +55,7 @@ class Utilities(commands.Cog):
         back into plain text.
 
         Args:
-            interaction (discord.Interaction): Provided by discord, the interaction which called the command
+            interaction (discord.Interaction): Provided by discord, the interaction which called the command.
             text (str): The input text, should be given in base64 format
 
         Returns (None): Sends a discord embed as a result and returns nothing
@@ -82,6 +82,48 @@ class Utilities(commands.Cog):
         # ^^ Set the embed footer to reflect the user who called the interaction
 
         await interaction.followup.send(embed=embed)  # Send the resulting embed
+
+    @app_commands.command(name="avatar", description="Retrieves an avatar")
+    @app_commands.describe(user="The user who you want to see the avatar of")
+    async def avatar(
+        self, interaction: discord.Interaction, user: discord.Member = None
+    ) -> None:
+        """
+        Attempts to send an embed with the user's avatar attached in the embed's image slot
+
+        Args:
+            interaction (discord.Interaction): Provided by discord, the interaction which called the command.
+            user (discord.Member, optional): The user to get the avatar from. If the member is not supplied, defaults to the interaction user.
+
+        Returns (None): Sends a discord embed as a result and returns nothing
+        """
+        await interaction.response.defer()  # Wait to avoid discord's 3 second command timer
+        if user == None:  # if the user is not supplied by the command initiator
+            user = interaction.user  # The command initiator becomes the user
+
+        if not user.avatar:  # If the user does not have an avatar property
+            embed = discord.Embed(color=blue, title="❌ Avatar Failure")
+            # Create an embed and respond saying that the user does not have an avatar
+            embed.description = f"@{user.name} does not have an avatar to display."
+            embed.set_footer(
+                text="Requested by @" + interaction.user.name,
+                icon_url=interaction.user.avatar.url if interaction.user.avatar else "",
+            )
+            # Set the footer of the embed to reflect the command initiator
+            await interaction.followup.send(embed=embed)  # Send the embed
+            return  # Return from the function early
+
+        embed = discord.Embed(title=f"✅ @{user.name}'s avatar", color=blue)
+        embed.set_footer(
+            text="Requested by @" + interaction.user.name,
+            icon_url=interaction.user.avatar.url if interaction.user.avatar else "",
+        )
+        embed.set_image(url=user.avatar.url)
+        # If the code has passed all guard clauses
+        # Create the embed with the users avatar and send it back to the user
+
+        await interaction.followup.send(embed=embed)  # Sends the embed to the user
+        return
 
 
 async def setup(client: commands.Bot) -> None:
