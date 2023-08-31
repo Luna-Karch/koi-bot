@@ -13,4 +13,10 @@ def load_token() -> str:
 
     return token.strip()
 
-print(load_token())
+def blue(text: str) -> None:
+    """
+    Prints the given text in blue in the terminal
+    """
+    print(f"\033[38;2;115;188;248m{text}\033[0m")
+
+blue("Hello World!")
