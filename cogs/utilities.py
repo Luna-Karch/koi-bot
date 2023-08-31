@@ -44,6 +44,45 @@ class Utilities(commands.Cog):
         # ^^ Set the embed footer to the one who used to command
         await interaction.followup.send(embed=embed)  # Send the resulting embed
 
+    @app_commands.command(
+        name="base64-decode",
+        description="Decodes a given base64 string into plain text",
+    )
+    @app_commands.describe(text="The base64 text to decode to plain text")
+    async def base64_decode(self, interaction: discord.Interaction, text: str) -> None:
+        """
+        Takes a base64 input as a string text and attempts to convert it
+        back into plain text.
+
+        Args:
+            interaction (discord.Interaction): Provided by discord, the interaction which called the command
+            text (str): The input text, should be given in base64 format
+
+        Returns (None): Sends a discord embed as a result and returns nothing
+        """
+
+        await interaction.response.defer(ephemeral=True)  # Waits ephemerally
+        embed = discord.Embed(color=blue, title="✅ Base64 Decoded Result")
+        # ^^ Create the embed with it's constructor
+        try:  # Attempt to convert the base64 input to plain text
+            embed.description = f"```\n{str(base64.b64decode(text))[2:-1]}\n```"
+            """ ^^ Adds the converted plain text to the embed description
+            and converts it in one line.
+            If this throws base64.binascii.Error
+            An invalid input was given
+            """
+        except base64.binascii.Error:  # In the case that an invalid input was given
+            embed.description = f"```diff\n- Text was not in base64 format\n```"
+            # ^^ Change the embed description to reflect that
+
+        embed.set_footer(
+            text="Requested by @" + interaction.user.name,
+            icon_url=interaction.user.avatar.url if interaction.user.avatar else "",
+        )
+        # ^^ Set the embed footer to reflect the user who called the interaction
+
+        await interaction.followup.send(embed=embed)  # Send the resulting embed
+
 
 async def setup(client: commands.Bot) -> None:
     """
