@@ -1,7 +1,16 @@
-import discord
 import os
+import typing
+import discord
 from discord import app_commands
 from discord.ext import commands
+
+
+SETUP_KWARGS: dict[str, typing.Any] = {
+    "intents": discord.Intents.all(),
+    "command_prefix": "~",
+    "help_command": None,
+    "description": "A cute, general purpose discord bot",
+}  # Bot setup keyword arguments
 
 
 def load_token() -> str:
