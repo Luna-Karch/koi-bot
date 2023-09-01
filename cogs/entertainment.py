@@ -5,10 +5,7 @@ from discord.ext import commands
 
 class Entertainment(commands.Cog):
     def __init__(self, client: commands.Bot) -> None:
-        self.client = client
-
-
-# Commit testing
+        self.client: Bot = client
 
 
 async def setup(client: commands.Bot) -> None:
