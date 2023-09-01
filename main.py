@@ -6,10 +6,10 @@ from discord.ext import commands
 
 
 SETUP_KWARGS: dict[str, typing.Any] = {
-    "intents": discord.Intents.all(),
-    "command_prefix": "~",
-    "help_command": None,
-    "description": "A cute, general purpose discord bot",
+    "intents": discord.Intents.all(),  # What the bot intends to use
+    "command_prefix": "~",  # The command prefix
+    "help_command": None,  # Removing the default help command
+    "description": "A cute, general purpose discord bot",  # bot description
 }  # Bot setup keyword arguments
 
 
