@@ -11,7 +11,7 @@ def load_token() -> str:
     Returns (str): The bot's authorization token
     """
     with open("token.txt", "r", encoding="utf-8") as f:
-        token = f.read()
+        token: str = f.read()
 
     return token.strip()
 
