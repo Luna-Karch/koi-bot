@@ -42,12 +42,13 @@ def cprint(text: str, rgb: tuple[int]) -> None:
         IndexError: If the color values are outside the RGB spectrum, if any value is outside the range 0 <= r, g, b <= 255 
     """
     output_template: str = "\033[38;2;red;green;bluem{text}\033[0m"
+    # ^^ Template string, replaces values red, green, blue, and text accordingly
     print(
         output_template.replace("red", str(rgb[0]))
         .replace("green", str(rgb[1]))
         .replace("blue", str(rgb[2]))
         .replace("{text}", text)
-    )
+    )  # Printing the replace output
 
 
 cprint("test", (255, 255, 255))
