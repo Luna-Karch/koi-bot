@@ -12,6 +12,12 @@ SETUP_KWARGS: dict[str, typing.Any] = {
     "description": "A cute, general purpose discord bot",  # bot description
 }  # Bot setup keyword arguments
 
+BLUE: tuple[typing.Literal[155], typing.Literal[188], typing.Literal[248]] = (
+    155,
+    188,
+    248,
+)
+
 
 def load_token() -> str:
     """
@@ -51,14 +57,7 @@ def cprint(text: str, rgb: tuple[int]) -> None:
     )  # Printing the replace output
 
 
-cprint("test", (255, 255, 255))
-
-
-def blue(text: str) -> None:
-    """
-    Prints the given text in blue in the terminal
-    """
-    print(f"\033[38;2;115;188;248m{text}\033[0m")
+cprint("test", BLUE)
 
 
 async def load_cogs(client: commands.Bot) -> None:
