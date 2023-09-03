@@ -25,6 +25,34 @@ def load_token() -> str:
     return token.strip()
 
 
+def cprint(text: str, rgb: tuple[int]) -> None:
+    for color_value in rgb:
+        if not (0 <= color_value <= 255):
+            raise IndexError("Color value cannot exceed 255 or preceed 0")
+
+    """Prints text in any color provided RGB values
+
+    Args:
+        text (str): The text you want to print in rgb
+        rgb (tuple[int]): RGB format of the color value you want to print the text with
+
+    Returns (None): Prints a statement
+    
+    Raises:
+        IndexError: If the color values are outside the RGB spectrum, if any value is outside the range 0 <= r, g, b <= 255 
+    """
+    output_template: str = "\033[38;2;red;green;bluem{text}\033[0m"
+    print(
+        output_template.replace("red", str(rgb[0]))
+        .replace("green", str(rgb[1]))
+        .replace("blue", str(rgb[2]))
+        .replace("{text}", text)
+    )
+
+
+cprint("test", (255, 255, 255))
+
+
 def blue(text: str) -> None:
     """
     Prints the given text in blue in the terminal
