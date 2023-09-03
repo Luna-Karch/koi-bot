@@ -34,7 +34,9 @@ def load_token() -> str:
 def cprint(text: str, rgb: tuple[int]) -> None:
     for color_value in rgb:
         if not (0 <= color_value <= 255):
-            raise IndexError("Color value cannot exceed 255 or preceed 0")
+            raise IndexError(
+                f"Color value cannot be out of range 0-255.\n Values given: {rgb}"
+            )  # Tells the user they messed up and explains how
 
     """Prints text in any color provided RGB values
 
