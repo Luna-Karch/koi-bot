@@ -60,9 +60,6 @@ def cprint(text: str, rgb: tuple[int]) -> None:
     )  # Printing the replace output
 
 
-cprint("test", BLUE)
-
-
 async def load_cogs(client: commands.Bot) -> None:
     """
     Loads all the cogs from the cogs folder
