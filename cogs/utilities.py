@@ -4,6 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 
 blue = 0x73BCF8  # Hex color blue stored for embed usage
+owner_id = 923600698967461898
 
 
 class Utilities(commands.Cog):
@@ -124,6 +125,27 @@ class Utilities(commands.Cog):
 
         await interaction.followup.send(embed=embed)  # Sends the embed to the user
         return
+
+    @app_commands.command(name="sync", description="This command is not for you")
+    async def _sync(self, interaction: discord.Interaction) -> None:
+        """An interaction command to sync all the other interaction commands
+
+        Args:
+            interaction (discord.Interaction): Provided by discord.
+        """
+        await interaction.response.defer(
+            ephemeral=True
+        )  # Bypass 3 second discord check
+        if interaction.user.id != owner_id:  # If the user of the command isn't me
+            await interaction.followup.send(
+                "This command is not for you."
+            )  # Tell the user to leave it alone
+            return  # Escape the function early
+
+        await self.client.tree.sync()  # Sync the tree of interaction commands
+        await interaction.followup.send(
+            "Syncing client tree."
+        )  # Respond to the user with affirmation
 
 
 async def setup(client: commands.Bot) -> None:
