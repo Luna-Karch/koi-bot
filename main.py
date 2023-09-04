@@ -1,6 +1,7 @@
 import os
 import typing
 import discord
+import asyncio
 from discord import app_commands
 from discord.ext import commands
 
@@ -78,3 +79,15 @@ async def load_cogs(client: commands.Bot) -> None:
             # ^^ If the cog ends in "y", checking if it's a python file
             await client.load_extension(f"cogs.{filename[:-3]}")
             # ^^ Load the cog into the bot
+
+
+client = commands.Bot(**SETUP_KWARGS)
+
+
+@client.event
+async def on_ready() -> None:
+    await load_cogs(client)
+    cprint(f"{client.user.name} is online!", BLUE)
+
+
+client.run(load_token())
