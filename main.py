@@ -83,6 +83,9 @@ client = commands.Bot(**SETUP_KWARGS)
 
 @client.event
 async def on_ready() -> None:
+    """This function runs when the client is "ready"
+    It's current purpose is simply to notify the person running the program that
+    the program is running without errors and is connected to discord"""
     await load_cogs(client)
     cprint(f"{client.user.name} is online!", BLUE)
 
