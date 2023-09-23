@@ -33,12 +33,6 @@ def load_token() -> str:
 
 
 def cprint(text: str, rgb: tuple[int]) -> None:
-    for color_value in rgb:
-        if not (0 <= color_value <= 255):
-            raise IndexError(
-                f"Color value cannot be out of range 0-255.\n Values given: {rgb}"
-            )  # Tells the user they messed up and explains how
-
     """Prints text in any color provided RGB values
 
     Args:
@@ -50,6 +44,13 @@ def cprint(text: str, rgb: tuple[int]) -> None:
     Raises:
         IndexError: If the color values are outside the RGB spectrum, if any value is outside the range 0 <= r, g, b <= 255 
     """
+    
+    for color_value in rgb:
+        if not (0 <= color_value <= 255):
+            raise IndexError(
+                f"Color value cannot be out of range 0-255.\n Values given: {rgb}"
+            )  # Tells the user they messed up and explains how
+
     output_template: str = "\033[38;2;red;green;bluem{text}\033[0m"
     # ^^ Template string, replaces values red, green, blue, and text accordingly
     print(
