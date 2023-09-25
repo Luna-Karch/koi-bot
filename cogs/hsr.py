@@ -1,5 +1,6 @@
 import discord
 import typing
+from random import choice
 from mihomo import Language, MihomoAPI
 from mihomo.models import StarrailInfoParsed
 from mihomo.errors import InvalidParams, UserNotFound, HttpRequestError
@@ -17,8 +18,11 @@ class HSR(commands.Cog):
         self.client: commands.Bot = client
         # ^^ Sets the client to be an attribute of the class
         self.hsrapi = MihomoAPI(language=Language.EN)
-        self.FIVE_STAR_HEX = 0xFFAA4A
         # ^^ Honkai: Star Rail API Client, used for getting HSR Information
+        self.FIVE_STAR_HEX = 0xFFAA4A
+        self.FOUR_STAR_HEX = 0x8278ED
+        self.ERROR_HEX = 0xFF5733
+        # ^^ Constant variables used multiple times in the class
 
     async def get_hsr_data(
         self, uid: int
@@ -59,7 +63,11 @@ class HSR(commands.Cog):
         Returns:
             discord.Embed: The player card embed
         """
-        player_card = discord.Embed(color=self.FIVE_STAR_HEX, description="```")
+        player_card_color = choice((self.FIVE_STAR_HEX, self.FOUR_STAR_HEX))
+        player_card = discord.Embed(
+            color=player_card_color,
+            description="```",
+        )
         player_card.set_author(
             name=hsr_info.player.name + " | " + str(hsr_info.player.uid),
             icon_url=hsr_info.player.avatar.icon,
@@ -102,7 +110,7 @@ class HSR(commands.Cog):
 
         if isinstance(data, str):  # If an HttpRequestError occurs
             embed: discord.Embed = discord.Embed(
-                color=0xFF5733,
+                color=self.ERROR_HEX,
                 title="Whoops!",
                 description="Something is wrong with the API service right now. It must be down for an update or something of the sort",
             )
@@ -111,7 +119,7 @@ class HSR(commands.Cog):
 
         if data == None:  # If the request failed due to invalid parameters
             embed: discord.Embed = discord.Embed(
-                color=0xFF5733,
+                color=self.ERROR_HEX,
                 title="Whoops!",
                 description="Either you provided an invalid input number or the user could not be found in the database.",
             )
