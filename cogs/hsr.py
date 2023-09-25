@@ -17,6 +17,7 @@ class HSR(commands.Cog):
         self.client: commands.Bot = client
         # ^^ Sets the client to be an attribute of the class
         self.hsrapi = MihomoAPI(language=Language.EN)
+        self.FIVE_STAR_HEX = 0xFFAA4A
         # ^^ Honkai: Star Rail API Client, used for getting HSR Information
 
     async def get_hsr_data(
@@ -42,6 +43,51 @@ class HSR(commands.Cog):
             return "Net"
         except (InvalidParams, UserNotFound):  # If an invalid UID is passed
             return None
+
+    def make_player_card(self, hsr_info: StarrailInfoParsed) -> discord.Embed:
+        """Takes in a StarrailInfoParsed object and creates a discord Embed representing the player card
+        The player card refers to some general useful information about the player.
+
+        This information includes Trailblaze Level, Friend Count, Equilibrium Level, Achievement Count,
+        Amount of Characters Owned, and Amount of Light Cones Owned.
+
+        Once the embed is created, returns it.
+
+        Args:
+            hsr_info (StarrailInfoParsed): The information retrieved from Mihomo's API
+
+        Returns:
+            discord.Embed: The player card embed
+        """
+        player_card = discord.Embed(color=self.FIVE_STAR_HEX, description="```")
+        player_card.set_author(
+            name=hsr_info.player.name + " | " + str(hsr_info.player.uid),
+            icon_url=hsr_info.player.avatar.icon,
+        )
+
+        player_attribute_mapping = {
+            "Trailblaze Level": hsr_info.player.level,
+            "Friends": hsr_info.player.friend_count,
+            "Equilibrium Level": hsr_info.player.world_level,
+            "Achievements": hsr_info.player.achievements,
+            "Characters Owned": hsr_info.player.characters,
+            "Light Cones Owned": hsr_info.player.light_cones,
+        }
+
+        for descriptor, value in player_attribute_mapping.items():
+            player_card.description += f"{descriptor:17} -> {value:4d}\n"
+
+        player_card.description += "```"
+
+        return player_card
+
+    def parse_data(
+        self, hsr_info: StarrailInfoParsed
+    ) -> typing.Dict[str, discord.Embed]:
+        player_card = self.make_player_card(hsr_info)
+
+        resulting_dictionary = {"player_card": player_card}
+        return resulting_dictionary
 
     @app_commands.command(
         name="hsr",
@@ -72,7 +118,11 @@ class HSR(commands.Cog):
             await interaction.followup.send(embed=embed)
             return  # Quitting the function early
 
-        await interaction.followup.send("API responded successfully!")
+        parsed_data = self.parse_data(data)  # Parsing the retrieved data
+
+        await interaction.followup.send(
+            embed=parsed_data["player_card"]
+        )  # For now, just send the player card
 
 
 async def setup(client: commands.Bot) -> None:
