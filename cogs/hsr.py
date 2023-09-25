@@ -45,7 +45,7 @@ class HSR(commands.Cog):
             return None
 
     def make_player_card(self, hsr_info: StarrailInfoParsed) -> discord.Embed:
-        """Takes in a StarrailInfoParsed object and creates a discord Embed representing the player card
+        """Takes in a StarrailInfoParsed object and creates a discord Embed representing the player card.
         The player card refers to some general useful information about the player.
 
         This information includes Trailblaze Level, Friend Count, Equilibrium Level, Achievement Count,
