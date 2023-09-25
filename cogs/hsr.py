@@ -63,7 +63,7 @@ class HSR(commands.Cog):
             await interaction.followup.send(embed=embed)
             return  # Quitting the function early
 
-        if isinstance(data, None):  # If the request failed due to invalid parameters
+        if data == None:  # If the request failed due to invalid parameters
             embed: discord.Embed = discord.Embed(
                 color=0xFF5733,
                 title="Whoops!",
