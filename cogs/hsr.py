@@ -1,7 +1,8 @@
 import discord
+import typing
 from mihomo import Language, MihomoAPI
 from mihomo.models import StarrailInfoParsed
-from mihomo.errors import InvalidParams
+from mihomo.errors import InvalidParams, UserNotFound, HttpRequestError
 from discord import app_commands
 from discord.ext import commands
 
@@ -18,19 +19,24 @@ class HSR(commands.Cog):
         self.hsrapi = MihomoAPI(language=Language.EN)
         # ^^ Honkai: Star Rail API Client, used for getting HSR Information
 
-    async def get_hsr_data(self, uid: int) -> StarrailInfoParsed | None:
+    async def get_hsr_data(self, uid: int) -> StarrailInfoParsed | typing.Literal["Net"] | None:
         """Requests data from Honkai: Star Rail using a UID
 
         Args:
             uid (int): A user ID from Honkai: Star Rail. Ex: 613792348, 714028257
 
         Returns:
-            StarrailInfoParsed | None: Returns the Honkai: Star Rail user information based on the UID if the data is retrievable. If not, returns None.
+            StarrailInfoParsed | typing.Literal["Net"] | None: 
+              Returns the Honkai: Star Rail user information based on the UID if the data is retrievable.
+              If there is an HttpRequestError, returns "Net"
+              If there is another type of error, returns None
         """
         try: # Attempting to get the data
             data: StarrailInfoParsed = await self.hsrapi.fetch_user(uid, replace_icon_name_with_url=True)
             return data
-        except InvalidParams: # If an invalid UID is passed
+        except HttpRequestError:
+            return "Net"
+        except (InvalidParams, UserNotFound): # If an invalid UID is passed
             return None
 
     @app_commands.command(name = "hsr", description="Get information about a Honkai: Star Rail player from their UID")
@@ -39,9 +45,6 @@ class HSR(commands.Cog):
         ...
 
 async def setup(client: commands.Bot) -> None:
-    """
-    
-    Cog Setup Function, required for every cog that needs to be loaded.
-    Adds all the commands in the cog to the client and loads them
-    """
+    """Cog Setup Function, required for every cog that needs to be loaded.
+    Adds all the commands in the cog to the client and loads them"""
     await client.add_cog(HSR(client))
