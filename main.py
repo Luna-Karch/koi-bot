@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 
 
+OWNER_ID = 923600698967461898 # My user ID if someone is cloning this bot from github, this must be changed 
+
 SETUP_KWARGS: dict[str, typing.Any] = {
     "intents": discord.Intents.all(),  # What the bot intends to use
     "command_prefix": "~",  # The command prefix
@@ -78,6 +80,14 @@ async def load_cogs(client: commands.Bot) -> None:
 
 
 client = commands.Bot(**SETUP_KWARGS)
+
+@client.command(name = "sync")
+async def _sync(ctx: commands.Context):
+    if ctx.author.id != OWNER_ID:
+        return
+    
+    await client.tree.sync()
+    await ctx.send("Syncing...")
 
 
 @client.event
