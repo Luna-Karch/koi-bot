@@ -6,6 +6,7 @@ from mihomo.models import StarrailInfoParsed
 from mihomo.errors import InvalidParams, UserNotFound, HttpRequestError
 from discord import app_commands
 from discord.ext import commands
+from models.player_card_view import PlayerCardView
 
 
 class HSR(commands.Cog):
@@ -129,7 +130,8 @@ class HSR(commands.Cog):
         parsed_data = self.parse_data(data)  # Parsing the retrieved data
 
         await interaction.followup.send(
-            embed=parsed_data["player_card"]
+            embed=parsed_data["player_card"],
+            view=PlayerCardView(interaction.user.id, data),
         )  # For now, just send the player card
 
 
