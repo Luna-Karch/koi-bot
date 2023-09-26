@@ -1,11 +1,12 @@
-from discord.ui import View
+import discord
+from typing import Dict
 from models.character_dropdown import CharacterDropdown
 from mihomo.models import StarrailInfoParsed
 
 
-class PlayerCardView(View):
-    def __init__(self, user_id: int, hsr_info: StarrailInfoParsed):
+class PlayerCardView(discord.ui.View):
+    def __init__(self, user_id: int, parsed_data: Dict[str, discord.Embed]):
         self.user_id = user_id
-        self.hsr_info = hsr_info
+        self.parsed_data = parsed_data
         super().__init__(timeout=None)
-        self.add_item(CharacterDropdown(user_id, hsr_info))
+        self.add_item(CharacterDropdown(user_id, parsed_data))
