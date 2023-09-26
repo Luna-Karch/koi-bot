@@ -4,7 +4,8 @@ from mihomo.models import StarrailInfoParsed
 
 
 class CharacterDropdown(discord.ui.Select):
-    def __init__(self, user_id: int, parsed_data):
+    def __init__(self, user_id: int, parsed_data: Dict[str, discord.Embed]):
+        self.parsed_data = parsed_data
         options = self.make_options(parsed_data)
         super().__init__(
             placeholder="Select a character",
