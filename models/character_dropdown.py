@@ -26,7 +26,7 @@ class CharacterDropdown(discord.ui.Select):
         """
         options = [
             discord.SelectOption(label=character.name, value=character.name)
-            for character in parsed_data["characters"]
+            for character in parsed_data["characters"].title
         ]
 
         return options
