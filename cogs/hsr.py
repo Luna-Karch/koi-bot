@@ -90,6 +90,22 @@ class HSR(commands.Cog):
 
         return player_card
 
+    def make_character_list(self, hsr_info: StarrailInfoParsed) -> discord.Embed:
+        """Takes the hsr_info from the API and returns a list of the characters on the users profile
+
+        Args:
+            hsr_info (StarrailInfoParsed): The data from the Mihomo API
+
+        Returns:
+            discord.Embed: A discord embed whose title is a list of the characters the user has on their profile.
+            To access it, simply access the embed's title property. Ex: character_list.title
+        """
+        character_list = discord.Embed(title="")
+        character_list.title = ", ".join(
+            character.name for character in hsr_info.characters
+        )
+        return character_list
+
     def parse_data(
         self, hsr_info: StarrailInfoParsed
     ) -> typing.Dict[str, discord.Embed]:
@@ -131,7 +147,7 @@ class HSR(commands.Cog):
 
         await interaction.followup.send(
             embed=parsed_data["player_card"],
-            view=PlayerCardView(interaction.user.id, data),
+            view=PlayerCardView(interaction.user.id, parsed_data),
         )  # For now, just send the player card
 
 
