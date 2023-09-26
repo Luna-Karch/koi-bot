@@ -110,8 +110,12 @@ class HSR(commands.Cog):
         self, hsr_info: StarrailInfoParsed
     ) -> typing.Dict[str, discord.Embed]:
         player_card = self.make_player_card(hsr_info)
+        character_list = self.make_character_list(hsr_info)
 
-        resulting_dictionary = {"player_card": player_card}
+        resulting_dictionary = {
+            "player_card": player_card,
+            "characters": character_list,
+        }
         return resulting_dictionary
 
     @app_commands.command(

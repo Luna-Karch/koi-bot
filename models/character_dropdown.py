@@ -25,8 +25,8 @@ class CharacterDropdown(discord.ui.Select):
             list[discord.SelectOption]: A list of discord.SelectOption objects. Both the label and value attributes are set to the character name
         """
         options = [
-            discord.SelectOption(label=character.name, value=character.name)
-            for character in parsed_data["characters"].title
+            discord.SelectOption(label=character, value=character)
+            for character in parsed_data["characters"].title.split(", ")
         ]
 
         return options
