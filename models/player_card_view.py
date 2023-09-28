@@ -5,7 +5,11 @@ from mihomo.models import StarrailInfoParsed
 
 
 class PlayerCardView(discord.ui.View):
-    def __init__(self, user_id: int, parsed_data: Dict[str, discord.Embed]):
+    def __init__(
+        self,
+        user_id: int,
+        parsed_data: Dict[str, discord.Embed] | Dict[str, Dict[str, discord.Embed]],
+    ):
         """This is the view used to hold the dropdown menu for each character and is sent when /hsr is run
 
         Args:

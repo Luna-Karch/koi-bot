@@ -186,7 +186,7 @@ class HSR(commands.Cog):
 
     def parse_data(
         self, hsr_info: StarrailInfoParsed
-    ) -> typing.Dict[str, discord.Embed]:
+    ) -> typing.Dict[str, discord.Embed | typing.Dict[str, discord.Embed]]:
         player_card = self.make_player_card(hsr_info)
         character_list = self.make_character_list(hsr_info)
         character_cards = self.make_character_cards(hsr_info)

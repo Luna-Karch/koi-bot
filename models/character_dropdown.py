@@ -4,7 +4,11 @@ from mihomo.models import StarrailInfoParsed
 
 
 class CharacterDropdown(discord.ui.Select):
-    def __init__(self, user_id: int, parsed_data: Dict[str, discord.Embed]):
+    def __init__(
+        self,
+        user_id: int,
+        parsed_data: Dict[str, discord.Embed] | Dict[str, Dict[str, discord.Embed]],
+    ):
         self.parsed_data = parsed_data
         options = self.make_options(parsed_data)
         super().__init__(
@@ -15,7 +19,8 @@ class CharacterDropdown(discord.ui.Select):
         )
 
     def make_options(
-        self, parsed_data: Dict[str, discord.Embed]
+        self,
+        parsed_data: Dict[str, discord.Embed] | Dict[str, Dict[str, discord.Embed]],
     ) -> list[discord.SelectOption]:
         """Converts the parsed data given into a list of discord select options to be added to the view
 
