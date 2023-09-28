@@ -1,12 +1,13 @@
 import discord
 import typing
+from typing import Dict
 from random import choice
-from mihomo import Language, MihomoAPI
-from mihomo.models import StarrailInfoParsed
-from mihomo.errors import InvalidParams, UserNotFound, HttpRequestError
 from discord import app_commands
 from discord.ext import commands
+from mihomo import Language, MihomoAPI
+from mihomo.models import StarrailInfoParsed
 from models.player_card_view import PlayerCardView
+from mihomo.errors import InvalidParams, UserNotFound, HttpRequestError
 
 
 class HSR(commands.Cog):
@@ -105,6 +106,20 @@ class HSR(commands.Cog):
             character.name for character in hsr_info.characters
         )
         return character_list
+
+    def make_character_cards(
+        self, hsr_info: StarrailInfoParsed
+    ) -> Dict[str, discord.Embed]:
+        """Creates a dictionary of character names mapped to character cards, which are discord Embeds
+        Each card will contain important information about each character
+
+        Args:
+            hsr_info (StarrailInfoParsed): Parsed Honkai: Star Rail Info parsed from Mihomo's API
+
+        Returns:
+            Dict[str, discord.Embed]: {character_name (str): character_card (discord.Embed)}
+        """
+        ...
 
     def parse_data(
         self, hsr_info: StarrailInfoParsed
