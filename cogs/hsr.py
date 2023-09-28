@@ -108,8 +108,11 @@ class HSR(commands.Cog):
         )
         return character_list
 
-    def calculate_total_character_stats(character: Character) -> Dict[str, int]:
-        ...
+    def calculate_total_character_stats(self, character: Character) -> Dict[str, str]:
+        default_stats = character.attributes
+        addittional_stats = character.additions
+
+        total_stats: Dict[str, str] = {}
 
     def make_character_cards(
         self, hsr_info: StarrailInfoParsed
@@ -131,6 +134,7 @@ class HSR(commands.Cog):
             element_color = int("0x" + character.element.color[1:], 0)  # Get hex code
             character_image = character.portrait  # Get image url
             character_stats = self.calculate_total_character_stats(character)
+            # ^^  Calculate the characters total stats
 
             character_card: discord.Embed = discord.Embed(
                 title=f"{player_name}'s {character.name}",
