@@ -119,7 +119,22 @@ class HSR(commands.Cog):
         Returns:
             Dict[str, discord.Embed]: {character_name (str): character_card (discord.Embed)}
         """
-        ...
+        character_cards: Dict[str, discord.Embed] = {}
+        # ^^ The initial Empty dictionary to be returned
+        player_name = hsr_info.player.name  # THe name of the player
+
+        for character in hsr_info.characters:  # For every character available
+            element_color = int("0x" + character.element.color[1:], 0)  # Get hex code
+            character_image = character.portrait  # Get image url
+
+            character_card: discord.Embed = discord.Embed(
+                title=f"{player_name}'s {character.name}",
+                description="",
+                color=element_color,
+            )  # Create the Embed
+            character_card.set_image(url=character_image)  # Set the image url
+
+        return character_cards
 
     def parse_data(
         self, hsr_info: StarrailInfoParsed
