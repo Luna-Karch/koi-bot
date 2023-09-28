@@ -175,17 +175,24 @@ class HSR(commands.Cog):
             # ^^  Calculate the characters total stats
 
             character_card: discord.Embed = discord.Embed(
-                title=f"{player_name}'s {character.name}",
                 description="```diff\n",
                 color=element_color,
             )  # Create the Embed
+
             for stat in character_stats:
                 character_card.description += (
                     f"+ {stat:28}-> {int(character_stats[stat]['value']):8}\n"
                     if not character_stats[stat]["is_percent"]
                     else f"+ {stat:28}-> {round((character_stats[stat]['value'] * 100), 1):7}%\n"
                 )
+                # ^^ String formatting, adding in the stats to the codeblock
+
             character_card.description += "```"
+
+            character_card.set_author(
+                name=f"{character.name} - Lvl {character.level}/{character.max_level}",
+                icon_url=character.icon,
+            )
 
             character_cards[character.name] = character_card
             # ^^ Add the character card to the dictionary
