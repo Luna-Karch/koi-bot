@@ -190,7 +190,7 @@ class HSR(commands.Cog):
             character_card.description += "```"
 
             character_card.set_author(
-                name=f"{character.name} - Lvl {character.level}/{character.max_level}",
+                name=f"{character.name} - Lvl {character.level}/{character.max_level} -  E{character.eidolon}",
                 icon_url=character.icon,
             )
 
