@@ -9,6 +9,7 @@ class CharacterDropdown(discord.ui.Select):
         user_id: int,
         parsed_data: Dict[str, discord.Embed] | Dict[str, Dict[str, discord.Embed]],
     ):
+        self.user_id = user_id
         self.parsed_data = parsed_data
         options = self.make_options(parsed_data)
         super().__init__(
@@ -38,5 +39,12 @@ class CharacterDropdown(discord.ui.Select):
         return options
 
     async def callback(self, interaction: discord.Interaction):
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "This interaction is not for you", ephemeral=True
+            )
+            return
+
         await interaction.response.defer()
-        await interaction.followup.send(f"Your choice is {self.values[0]}")
+        character_embed = self.parsed_data["character_cards"][self.values[0]]
+        await interaction.followup.send(embed=character_embed)

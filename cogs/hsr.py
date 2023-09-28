@@ -177,10 +177,20 @@ class HSR(commands.Cog):
 
             character_card: discord.Embed = discord.Embed(
                 title=f"{player_name}'s {character.name}",
-                description="",
+                description="```diff\n",
                 color=element_color,
             )  # Create the Embed
+            for stat in character_stats:
+                character_card.description += (
+                    f"+ {stat}: {int(character_stats[stat]['value'])}\n"
+                    if not character_stats[stat]["is_percent"]
+                    else f"+ {stat}: {(character_stats[stat]['value'] * 100):.1f}%\n"
+                )
+            character_card.description += "```"
+
             character_card.set_image(url=character_image)  # Set the image url
+            character_cards[character.name] = character_card
+            # ^^ Add the character card to the dictionary
 
         return character_cards
 
