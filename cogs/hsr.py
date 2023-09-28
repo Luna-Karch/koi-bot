@@ -4,6 +4,7 @@ from typing import Dict
 from random import choice
 from discord import app_commands
 from discord.ext import commands
+from mihomo.models import Character
 from mihomo import Language, MihomoAPI
 from mihomo.models import StarrailInfoParsed
 from models.player_card_view import PlayerCardView
@@ -107,6 +108,9 @@ class HSR(commands.Cog):
         )
         return character_list
 
+    def calculate_total_character_stats(character: Character) -> Dict[str, int]:
+        ...
+
     def make_character_cards(
         self, hsr_info: StarrailInfoParsed
     ) -> Dict[str, discord.Embed]:
@@ -126,6 +130,7 @@ class HSR(commands.Cog):
         for character in hsr_info.characters:  # For every character available
             element_color = int("0x" + character.element.color[1:], 0)  # Get hex code
             character_image = character.portrait  # Get image url
+            character_stats = self.calculate_total_character_stats(character)
 
             character_card: discord.Embed = discord.Embed(
                 title=f"{player_name}'s {character.name}",
