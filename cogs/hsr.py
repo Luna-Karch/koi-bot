@@ -167,7 +167,6 @@ class HSR(commands.Cog):
         """
         character_cards: typing.Dict[str, discord.Embed] = {}
         # ^^ The initial Empty dictionary to be returned
-        player_name = hsr_info.player.name  # THe name of the player
 
         for character in hsr_info.characters:  # For every character available
             element_color = int("0x" + character.element.color[1:], 0)  # Get hex code
