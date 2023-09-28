@@ -1,6 +1,5 @@
-import discord
 import typing
-from typing import Dict
+import discord
 from random import choice
 from discord import app_commands
 from discord.ext import commands
@@ -108,15 +107,55 @@ class HSR(commands.Cog):
         )
         return character_list
 
-    def calculate_total_character_stats(self, character: Character) -> Dict[str, str]:
-        default_stats = character.attributes
-        addittional_stats = character.additions
+    def calculate_total_character_stats(
+        self, character: Character
+    ) -> typing.Dict[str, typing.Dict[str, typing.Any]]:
+        """Returns an informational mapping of strings to attribute values that matter,
+        combining them and adding the values
 
-        total_stats: Dict[str, str] = {}
+        Args:
+            character (Character): The character object
+
+        Returns:
+            typing.Dict[str, typing.Dict[str, typing.Any]]: The stats for a character
+
+            Example:
+
+            {
+                "HP": {"value": 3203.745155068101, "is_percent": False},
+                "ATK": {"value": 3758.292158859966, "is_percent": False},
+                "DEF": {"value": 882.86872982796, "is_percent": False},
+                "SPD": {"value": 106.3000000002794, "is_percent": False},
+                "CRIT Rate": {"value": 0.13, "is_percent": True},
+                "CRIT DMG": {"value": 0.74624000582844, "is_percent": True},
+                "Effect Hit Rate": {"value": 0.40672000464983693, "is_percent": True},
+                "Break Effect": {"value": 0.28, "is_percent": True},
+                "Effect RES": {"value": 0.22896000347100504, "is_percent": True},
+                "Lightning DMG Boost": {"value": 0.1, "is_percent": True},
+            }
+        """
+
+        raw_stats = character.attributes + character.additions
+        # ^^ Getting the raw value of all the attributes
+
+        total_stats: typing.Dict[str, typing.Dict[str, typing.Any]] = {}
+
+        for attribute in raw_stats:
+            if not total_stats.get(attribute.name):
+                # ^^ If the key does not already exist in the dictionary
+                total_stats[attribute.name] = {
+                    "value": attribute.value,
+                    "is_percent": attribute.is_percent,
+                }  # Create the value in the dictionary
+            else:  # If the key already does exist
+                total_stats[attribute.name]["value"] += attribute.value
+                # ^^ Add the values together
+
+        return total_stats
 
     def make_character_cards(
         self, hsr_info: StarrailInfoParsed
-    ) -> Dict[str, discord.Embed]:
+    ) -> typing.Dict[str, discord.Embed]:
         """Creates a dictionary of character names mapped to character cards, which are discord Embeds
         Each card will contain important information about each character
 
@@ -124,9 +163,9 @@ class HSR(commands.Cog):
             hsr_info (StarrailInfoParsed): Parsed Honkai: Star Rail Info parsed from Mihomo's API
 
         Returns:
-            Dict[str, discord.Embed]: {character_name (str): character_card (discord.Embed)}
+            typing.Dict[str, discord.Embed]: {character_name (str): character_card (discord.Embed)}
         """
-        character_cards: Dict[str, discord.Embed] = {}
+        character_cards: typing.Dict[str, discord.Embed] = {}
         # ^^ The initial Empty dictionary to be returned
         player_name = hsr_info.player.name  # THe name of the player
 
@@ -150,12 +189,15 @@ class HSR(commands.Cog):
     ) -> typing.Dict[str, discord.Embed]:
         player_card = self.make_player_card(hsr_info)
         character_list = self.make_character_list(hsr_info)
+        character_cards = self.make_character_cards(hsr_info)
+        # ^^ Creating all the data
 
         resulting_dictionary = {
             "player_card": player_card,
             "characters": character_list,
-        }
-        return resulting_dictionary
+            "character_cards": character_cards,
+        }  # ^^ Formatting it nicely
+        return resulting_dictionary  # Returning the nice data
 
     @app_commands.command(
         name="hsr",
