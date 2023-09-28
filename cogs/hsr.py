@@ -194,6 +194,7 @@ class HSR(commands.Cog):
                 icon_url=character.icon,
             )
 
+            character_card.set_image(url=character.preview)
             character_cards[character.name] = character_card
             # ^^ Add the character card to the dictionary
 
