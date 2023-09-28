@@ -11,6 +11,7 @@ class CharacterDropdown(discord.ui.Select):
     ):
         self.user_id = user_id
         self.parsed_data = parsed_data
+
         options = self.make_options(parsed_data)
         super().__init__(
             placeholder="Select a character",
@@ -46,5 +47,15 @@ class CharacterDropdown(discord.ui.Select):
             return
 
         await interaction.response.defer()
+
         character_embed = self.parsed_data["character_cards"][self.values[0]]
+
+        user_profile_picture = ""
+        if interaction.user.avatar:
+            user_profile_picture = interaction.user.avatar.url
+
+        character_embed.set_footer(
+            text=f"Requested by: {interaction.user.name}", icon_url=user_profile_picture
+        )
+
         await interaction.followup.send(embed=character_embed)
