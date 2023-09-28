@@ -4,6 +4,10 @@ from mihomo.models import StarrailInfoParsed
 
 
 class CharacterDropdown(discord.ui.Select):
+    """Character Dropdown Menu.
+    Allows the user to select one of the characters on the profile of the Honkai: Star Rail player
+    """
+
     def __init__(
         self,
         user_id: int,
