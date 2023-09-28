@@ -171,7 +171,6 @@ class HSR(commands.Cog):
 
         for character in hsr_info.characters:  # For every character available
             element_color = int("0x" + character.element.color[1:], 0)  # Get hex code
-            character_image = character.portrait  # Get image url
             character_stats = self.calculate_total_character_stats(character)
             # ^^  Calculate the characters total stats
 
@@ -182,13 +181,12 @@ class HSR(commands.Cog):
             )  # Create the Embed
             for stat in character_stats:
                 character_card.description += (
-                    f"+ {stat}: {int(character_stats[stat]['value'])}\n"
+                    f"+ {stat:28}-> {int(character_stats[stat]['value']):8}\n"
                     if not character_stats[stat]["is_percent"]
-                    else f"+ {stat}: {(character_stats[stat]['value'] * 100):.1f}%\n"
+                    else f"+ {stat:28}-> {round((character_stats[stat]['value'] * 100), 1):7}%\n"
                 )
             character_card.description += "```"
 
-            character_card.set_image(url=character_image)  # Set the image url
             character_cards[character.name] = character_card
             # ^^ Add the character card to the dictionary
 
