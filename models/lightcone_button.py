@@ -1,4 +1,5 @@
 import discord
+from mihomo.models import StarrailInfoParsed
 
 
 class LightconeButton(discord.ui.Button):
