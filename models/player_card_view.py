@@ -1,7 +1,6 @@
 import discord
 from typing import Dict
 from models.character_dropdown import CharacterDropdown
-from mihomo.models import StarrailInfoParsed
 
 
 class PlayerCardView(discord.ui.View):
