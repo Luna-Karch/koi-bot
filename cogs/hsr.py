@@ -202,7 +202,31 @@ class HSR(commands.Cog):
     def make_lightcone_cards(
         self, hsr_info: StarrailInfoParsed
     ) -> typing.Dict[str, discord.Embed]:
-        ...
+        """Creates a dictionary of strings mapped to discord embed, which is just the character mapped to their lightcone
+        but in a nice fancy embed.
+
+        Args:
+            hsr_info (StarrailInfoParsed): Data parsed from mihomo api
+
+        Returns:
+            typing.Dict[str, discord.Embed]: A mapping of character names to embeds
+            {"Kafka": discord.Embed(), ...}
+        """
+
+        lightcone_cards: typing.Dict[str, discord.Embed] = {}
+
+        for character in hsr_info.characters:
+            lightcone_name = (
+                f"S{character.light_cone.superimpose} {character.light_cone.name}"
+            )
+            lightcone_name += f" - Lvl {character.light_cone.level} / {character.light_cone.max_level}"
+            lightcone_color = int("0x" + character.element.color[1:], 0)
+
+            lightcone_embed = discord.Embed(
+                title=lightcone_name, color=lightcone_color, description=""
+            )
+            
+            ...
 
     def parse_data(
         self, hsr_info: StarrailInfoParsed
