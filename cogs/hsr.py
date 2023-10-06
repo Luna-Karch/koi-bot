@@ -180,7 +180,7 @@ class HSR(commands.Cog):
 
             for stat in character_stats:
                 character_card.description += (
-                    f"+ {stat:28}-> {int(character_stats[stat]['value']):8}\n"
+                    f"+ {stat:28}-> {float(character_stats[stat]['value']):8}\n"
                     if not character_stats[stat]["is_percent"]
                     else f"+ {stat:28}-> {round((character_stats[stat]['value'] * 100), 1):7}%\n"
                 )
@@ -223,10 +223,22 @@ class HSR(commands.Cog):
             lightcone_color = int("0x" + character.element.color[1:], 0)
 
             lightcone_embed = discord.Embed(
-                title=lightcone_name, color=lightcone_color, description=""
+                title=lightcone_name, color=lightcone_color, description="```diff\n"
             )
             
-            ...
+            for attribute in character.light_cone.attributes:
+                if not attribute.is_percent:
+                    lightcone_embed.description += f"+ {attribute.name:28} -> {float(attribute.displayed_value):8}\n"
+                else:
+                    lightcone_embed.description += f"+ {attribute.name:28} -> {round((attribute.value * 100), 1):7}%\n"
+            
+            lightcone_embed.description += "```"
+
+            lightcone_embed.set_image(url = character.light_cone.portrait)
+            
+            lightcone_cards[character.name] = lightcone_embed
+
+        return lightcone_cards
 
     def parse_data(
         self, hsr_info: StarrailInfoParsed
@@ -234,12 +246,14 @@ class HSR(commands.Cog):
         player_card = self.make_player_card(hsr_info)
         character_list = self.make_character_list(hsr_info)
         character_cards = self.make_character_cards(hsr_info)
+        lightcone_cards = self.make_lightcone_cards(hsr_info)
         # ^^ Creating all the data
 
         resulting_dictionary = {
             "player_card": player_card,
             "characters": character_list,
             "character_cards": character_cards,
+            "lightcone_cards": lightcone_cards
         }  # ^^ Formatting it nicely
         return resulting_dictionary  # Returning the nice data
 
