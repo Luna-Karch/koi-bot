@@ -18,5 +18,6 @@ class PlayerCardView(discord.ui.View):
         """
         self.user_id = user_id
         self.parsed_data = parsed_data
+
         super().__init__(timeout=None)
         self.add_item(CharacterDropdown(user_id, parsed_data))
