@@ -199,6 +199,11 @@ class HSR(commands.Cog):
 
         return character_cards
 
+    def make_lightcone_cards(
+        self, hsr_info: StarrailInfoParsed
+    ) -> typing.Dict[str, discord.Embed]:
+        ...
+
     def parse_data(
         self, hsr_info: StarrailInfoParsed
     ) -> typing.Dict[str, discord.Embed | typing.Dict[str, discord.Embed]]:

@@ -62,4 +62,7 @@ class CharacterDropdown(discord.ui.Select):
             text=f"Requested by: {interaction.user.name}", icon_url=user_profile_picture
         )
 
-        await interaction.followup.send(embed=character_embed, view = CharacterCardView(interaction.user.id, self.parsed_data))
+        await interaction.followup.send(
+            embed=character_embed,
+            view=CharacterCardView(interaction.user.id, self.parsed_data),
+        )
