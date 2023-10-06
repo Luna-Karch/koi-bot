@@ -1,6 +1,5 @@
 import discord
 from typing import Dict
-from mihomo.models import StarrailInfoParsed
 
 
 class CharacterDropdown(discord.ui.Select):
