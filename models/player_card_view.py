@@ -1,6 +1,5 @@
 import discord
 from typing import Dict
-from models.lightcone_button import LightconeButton
 from models.character_dropdown import CharacterDropdown
 from mihomo.models import StarrailInfoParsed
 
