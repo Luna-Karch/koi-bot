@@ -180,7 +180,7 @@ class HSR(commands.Cog):
 
             for stat in character_stats:
                 character_card.description += (
-                    f"+ {stat:28}-> {float(character_stats[stat]['value']):8}\n"
+                    f"+ {stat:28}-> {int(character_stats[stat]['value']):8}\n"
                     if not character_stats[stat]["is_percent"]
                     else f"+ {stat:28}-> {round((character_stats[stat]['value'] * 100), 1):7}%\n"
                 )
@@ -216,9 +216,7 @@ class HSR(commands.Cog):
         lightcone_cards: typing.Dict[str, discord.Embed] = {}
 
         for character in hsr_info.characters:
-            lightcone_name = (
-                f"S{character.light_cone.superimpose} {character.light_cone.name}"
-            )
+            lightcone_name = f" {character.light_cone.name}"
             lightcone_name += f" - Lvl {character.light_cone.level} / {character.light_cone.max_level}"
             lightcone_color = int("0x" + character.element.color[1:], 0)
 
@@ -228,13 +226,15 @@ class HSR(commands.Cog):
 
             for attribute in character.light_cone.attributes:
                 if not attribute.is_percent:
-                    lightcone_embed.description += f"+ {attribute.name:28} -> {float(attribute.displayed_value):8}\n"
+                    lightcone_embed.description += f"+ {attribute.name:10} -> {int(attribute.displayed_value):8}\n"
                 else:
-                    lightcone_embed.description += f"+ {attribute.name:28} -> {round((attribute.value * 100), 1):7}%\n"
+                    lightcone_embed.description += f"+ {attribute.name:10} -> {round((attribute.value * 100), 1):7}%\n"
 
             lightcone_embed.description += "```"
 
             lightcone_embed.set_image(url=character.light_cone.portrait)
+
+            lightcone_embed.set_footer(text = f"{character.name}'s Lightcone", icon_url = character.icon)
 
             lightcone_cards[character.name] = lightcone_embed
 

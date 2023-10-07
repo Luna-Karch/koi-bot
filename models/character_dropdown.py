@@ -64,5 +64,5 @@ class CharacterDropdown(discord.ui.Select):
 
         await interaction.followup.send(
             embed=character_embed,
-            view=CharacterCardView(interaction.user.id, self.parsed_data),
+            view=CharacterCardView(interaction.user.id, self.values[0], self.parsed_data),
         )
