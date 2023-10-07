@@ -225,17 +225,17 @@ class HSR(commands.Cog):
             lightcone_embed = discord.Embed(
                 title=lightcone_name, color=lightcone_color, description="```diff\n"
             )
-            
+
             for attribute in character.light_cone.attributes:
                 if not attribute.is_percent:
                     lightcone_embed.description += f"+ {attribute.name:28} -> {float(attribute.displayed_value):8}\n"
                 else:
                     lightcone_embed.description += f"+ {attribute.name:28} -> {round((attribute.value * 100), 1):7}%\n"
-            
+
             lightcone_embed.description += "```"
 
-            lightcone_embed.set_image(url = character.light_cone.portrait)
-            
+            lightcone_embed.set_image(url=character.light_cone.portrait)
+
             lightcone_cards[character.name] = lightcone_embed
 
         return lightcone_cards
@@ -253,7 +253,7 @@ class HSR(commands.Cog):
             "player_card": player_card,
             "characters": character_list,
             "character_cards": character_cards,
-            "lightcone_cards": lightcone_cards
+            "lightcone_cards": lightcone_cards,
         }  # ^^ Formatting it nicely
         return resulting_dictionary  # Returning the nice data
 
