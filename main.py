@@ -13,11 +13,8 @@ SETUP_KWARGS: dict[str, typing.Any] = {
     "description": "A cute, general purpose discord bot",  # bot description
 }  # Bot setup keyword arguments
 
-BLUE: tuple[typing.Literal[155], typing.Literal[188], typing.Literal[248]] = (
-    155,
-    188,
-    248,
-)
+BLUE = (155, 188, 248)
+# ^^ RGB values for the color blue
 
 STARTUP_ART: str = """
 ╔═══════════════════════════════════════════════════════════════════════╗
