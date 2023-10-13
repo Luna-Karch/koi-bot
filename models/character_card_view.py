@@ -22,4 +22,6 @@ class CharacterCardView(discord.ui.View):
         await interaction.response.defer()
         button.disabled = True
         await interaction.followup.edit_message(interaction.message.id, view=self)
-        await interaction.followup.send(embed = self.parsed_data["lightcone_cards"][self.character])
+        await interaction.followup.send(
+            embed=self.parsed_data["lightcone_cards"][self.character]
+        )

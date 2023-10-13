@@ -226,7 +226,9 @@ class HSR(commands.Cog):
 
             for attribute in character.light_cone.attributes:
                 if not attribute.is_percent:
-                    lightcone_embed.description += f"+ {attribute.name:10} -> {int(attribute.displayed_value):8}\n"
+                    lightcone_embed.description += (
+                        f"+ {attribute.name:10} -> {int(attribute.displayed_value):8}\n"
+                    )
                 else:
                     lightcone_embed.description += f"+ {attribute.name:10} -> {round((attribute.value * 100), 1):7}%\n"
 
@@ -234,7 +236,9 @@ class HSR(commands.Cog):
 
             lightcone_embed.set_image(url=character.light_cone.portrait)
 
-            lightcone_embed.set_footer(text = f"{character.name}'s Lightcone", icon_url = character.icon)
+            lightcone_embed.set_footer(
+                text=f"{character.name}'s Lightcone", icon_url=character.icon
+            )
 
             lightcone_cards[character.name] = lightcone_embed
 
