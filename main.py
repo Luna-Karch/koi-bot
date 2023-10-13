@@ -19,6 +19,19 @@ BLUE: tuple[typing.Literal[155], typing.Literal[188], typing.Literal[248]] = (
     248,
 )
 
+STARTUP_ART: str = """
+╔═══════════════════════════════════════════════════════════════════════╗
+║ █████   ████           ███             ███████████            █████   ║
+║░░███   ███░           ░░░             ░░███░░░░░███          ░░███    ║
+║ ░███  ███     ██████  ████             ░███    ░███  ██████  ███████  ║
+║ ░███████     ███░░███░░███  ██████████ ░██████████  ███░░███░░░███░   ║
+║ ░███░░███   ░███ ░███ ░███ ░░░░░░░░░░  ░███░░░░░███░███ ░███  ░███    ║
+║ ░███ ░░███  ░███ ░███ ░███             ░███    ░███░███ ░███  ░███ ███║
+║ █████ ░░████░░██████  █████            ███████████ ░░██████   ░░█████ ║
+║░░░░░   ░░░░  ░░░░░░  ░░░░░            ░░░░░░░░░░░   ░░░░░░     ░░░░░  ║
+╚═══════════════════════════════════════════════════════════════════════╝
+"""
+
 
 def load_token() -> str:
     """
@@ -97,7 +110,8 @@ async def on_ready() -> None:
     It's current purpose is simply to notify the person running the program that
     the program is running without errors and is connected to discord"""
     await load_cogs(client)
-    cprint(f"{client.user.name} is online!", BLUE)
+    cprint(STARTUP_ART, BLUE)
+    cprint(f"Is now running...", BLUE)
 
 
 client.run(load_token())
