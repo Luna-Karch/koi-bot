@@ -232,6 +232,14 @@ class HSR(commands.Cog):
                 else:
                     lightcone_embed.description += f"+ {attribute.name:10} -> {round((attribute.value * 100), 1):7}%\n"
 
+            for _property in character.light_cone.properties:
+                if not _property.is_percent:
+                    lightcone_embed.description += (
+                        f"+ {_property.name:10} -> {int(_property.displayed_value):8}\n"
+                    )
+                else:
+                    lightcone_embed.description += f"+ {_property.name:10} -> {round((_property.value * 100), 1):7}%\n"    
+
             lightcone_embed.description += "```"
 
             lightcone_embed.set_image(url=character.light_cone.portrait)
