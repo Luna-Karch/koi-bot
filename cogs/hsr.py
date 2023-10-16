@@ -227,18 +227,18 @@ class HSR(commands.Cog):
             for attribute in character.light_cone.attributes:
                 if not attribute.is_percent:
                     lightcone_embed.description += (
-                        f"+ {attribute.name:10} -> {int(attribute.displayed_value):8}\n"
+                        f"+ {attribute.name:15} -> {int(attribute.displayed_value):8}\n"
                     )
                 else:
-                    lightcone_embed.description += f"+ {attribute.name:10} -> {round((attribute.value * 100), 1):7}%\n"
+                    lightcone_embed.description += f"+ {attribute.name:15} -> {round((attribute.value * 100), 1):7}%\n"
 
             for _property in character.light_cone.properties:
                 if not _property.is_percent:
                     lightcone_embed.description += (
-                        f"+ {_property.name:10} -> {int(_property.displayed_value):8}\n"
+                        f"+ {_property.name:15} -> {int(_property.displayed_value):8}\n"
                     )
                 else:
-                    lightcone_embed.description += f"+ {_property.name:10} -> {round((_property.value * 100), 1):7}%\n"    
+                    lightcone_embed.description += f"+ {_property.name:15} -> {round((_property.value * 100), 1):7}%\n"
 
             lightcone_embed.description += "```"
 
