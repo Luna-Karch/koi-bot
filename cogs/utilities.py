@@ -126,6 +126,38 @@ class Utilities(commands.Cog):
         await interaction.followup.send(embed=embed)  # Sends the embed to the user
         return
 
+    @app_commands.command(name="invite", description="Invite this bot to other servers")
+    async def _invite(self, interaction: discord.Interaction):
+        """Sends an embed with an invite link to the discord bot
+        Allows you to invite the bot to other servers
+
+        Args:
+            interaction (discord.Interaction): Provided by discord, application interaction
+
+        Returns (None):
+            Quite literally nothing
+        """
+        await interaction.response.defer(ephemeral=True)
+        invite_url = "https://discord.com/api/oauth2/authorize?client_id=1025477778428133379&permissions=8&scope=applications.commands%20bot"
+        invite_embed = discord.Embed(
+            title="🎣 Invite Koi",
+            color=blue,
+            description=f"Thank you for being interested @{interaction.user.name}",
+        )  # ^^ Create the invite embed
+        temporary_view = discord.ui.View(timeout=None)
+        # ^^ Creeate the view to attach the button to
+        temporary_view.add_item(
+            discord.ui.Button(
+                style=discord.ButtonStyle.link,
+                label="Invite Koi to Your Server",
+                url=invite_url,
+            ),
+        )  # ^^ Create the button
+
+        await interaction.followup.send(embed=invite_embed, view=temporary_view)
+        # ^^ Sending the embed along with the button
+        return
+
     @app_commands.command(name="sync", description="This command is not for you")
     async def _sync(self, interaction: discord.Interaction) -> None:
         """An interaction command to sync all the other interaction commands
