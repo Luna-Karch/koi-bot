@@ -24,11 +24,23 @@ class Entertainment(commands.Cog):
         active_event_loop = asyncio.get_running_loop()
         api_results = await active_event_loop.run_in_executor(None, self.get_hug_gif)
 
-        hug_embed = discord.Embed(title="Hugs!", color = 0x1d83a5)
-        hug_embed.description = (
-            f"*{interaction.user.name} is giving {user.name} a hug!*"
-        )
+        hug_message = f"*{interaction.user.name} is giving {user.name} a hug!*"
+        if user == interaction.user or user == self.client.user:
+            hug_message = f"Awh, are you lonely {interaction.user.name}? Have some hugs from me! 💙"
+
+        hug_embed = discord.Embed(title="Hugs!", color=0x1D83A5)
+        hug_embed.description = hug_message
         hug_embed.set_image(url=api_results)
+
+        try:
+            avatar_url = interaction.user.avatar.url
+        except Exception as e:
+            print(e)
+            avatar_url = ""
+
+        hug_embed.set_footer(
+            text=f"Hugs from {interaction.user.name}!", icon_url=avatar_url
+        )
 
         await interaction.followup.send(user.mention, embed=hug_embed)
 
