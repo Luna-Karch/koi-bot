@@ -11,7 +11,11 @@ class Entertainment(commands.Cog):
     def __init__(self, client: commands.Bot) -> None:
         self.client: commands.Bot = client
 
-    def get_hug_gif(self):
+    def get_hug_gif(self) -> str | None:
+        """Retrieves information from an api.
+        Simply returns a string or None if the request fails.
+        The string will be a url to an anime gif hug."""
+
         hug_api_url = "https://api.otakugifs.xyz/gif?reaction=hug"
         data = requests.get(hug_api_url)
         return data.json().get("url")
@@ -19,6 +23,11 @@ class Entertainment(commands.Cog):
     @app_commands.command(name="hug", description="Give a user of your choice a hug")
     @app_commands.describe(user="The user you want to give a hug to")
     async def _hug(self, interaction: discord.Interaction, user: discord.Member):
+        """Takes in a discord.Member object and allows one user to "hug" another.
+        This command will send an embed in a nice format with an anime hugging gif.
+        It will also ping the member and attempt to access the interaction user's avatar.
+        """
+
         await interaction.response.defer()
 
         active_event_loop = asyncio.get_running_loop()
