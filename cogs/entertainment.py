@@ -1,3 +1,4 @@
+import random
 import discord
 import asyncio
 import requests
@@ -52,6 +53,17 @@ class Entertainment(commands.Cog):
         )
 
         await interaction.followup.send(user.mention, embed=hug_embed)
+
+    @app_commands.command(name="flip", description="flip a coin")
+    async def _flip(self, interaction: discord.Interaction):
+        """Generates a random number; either 0 or 1.
+        1 -> Heads
+        2 -> Tails"""
+
+        random_number = random.randint(0, 1)
+        await interaction.response.send_message(
+            f"{interaction.user.mention} {'heads' if random_number else 'tails'}"
+        )
 
 
 async def setup(client: commands.Bot) -> None:
