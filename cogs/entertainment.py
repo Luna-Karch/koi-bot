@@ -58,12 +58,16 @@ class Entertainment(commands.Cog):
     async def _flip(self, interaction: discord.Interaction):
         """Generates a random number; either 0 or 1.
         1 -> Heads
-        2 -> Tails"""
+        0 -> Tails"""
 
         random_number = random.randint(0, 1)
         await interaction.response.send_message(
             f"{interaction.user.mention} {'heads' if random_number else 'tails'}"
         )
+
+    @app_commands.command(name="ping", description="Pong! 🏓")
+    async def _ping(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Pong! 🏓", ephemeral=True)
 
 
 async def setup(client: commands.Bot) -> None:
