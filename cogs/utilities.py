@@ -165,19 +165,38 @@ class Utilities(commands.Cog):
         Args:
             interaction (discord.Interaction): Provided by discord.
         """
-        await interaction.response.defer(
-            ephemeral=True
-        )  # Bypass 3 second discord check
+        await interaction.response.defer(ephemeral=True)
+        # ^^ Bypass 3 second discord check
         if interaction.user.id != owner_id:  # If the user of the command isn't me
-            await interaction.followup.send(
-                "This command is not for you."
-            )  # Tell the user to leave it alone
+            await interaction.followup.send("This command is not for you.")
+            # ^^ Tell the user to leave it alone
             return  # Escape the function early
 
-        await self.client.tree.sync()  # Sync the tree of interaction commands
         await interaction.followup.send(
             "Syncing client tree."
         )  # Respond to the user with affirmation
+
+    @app_commands.command(
+        name="about", description="Tells you what the bot is all about"
+    )
+    async def _about(self, interaction: discord.Interaction) -> None:
+        """An interaction command which simply tells you about the bot
+
+        Args:
+            interaction (discord.Interaction): Provided by discord.
+        """
+
+        await interaction.response.defer(ephemeral=True)
+        # ^^ Bypass 3 second check from discord
+
+        # Creating the Embed
+        embed: discord.Embed = discord.Embed(title="About Me 🎣")
+        embed.set_thumbnail(url=self.client.user.avatar.url)
+        embed.description = """**Hello! I'm Koi!**\n\nI'm here to give you a good time on discord. I also have a dedicated **Honkai: Star Rail** module.\n\nI am an open source discord bot and you can find my code [here](https://github.com/Luna-Karch/koi-bot)"""
+        embed.color = blue
+
+        await interaction.followup.send(embed=embed)
+        # ^^ Sending the embed
 
 
 async def setup(client: commands.Bot) -> None:
