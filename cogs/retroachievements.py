@@ -13,4 +13,4 @@ class Retroachievements(commands.Cog):
         await interaction.response.send_message("This is a placeholder command!")
 
 async def setup(client: commands.Bot) -> None:
-    client.add_cog(Retroachievements(client))
+    await client.add_cog(Retroachievements(client))
