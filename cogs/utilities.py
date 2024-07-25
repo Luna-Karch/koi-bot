@@ -1,3 +1,4 @@
+import os
 import base64
 import discord
 from discord import app_commands
@@ -17,6 +18,15 @@ class Utilities(commands.Cog):
         self.client: commands.Bot = client
         # ^^ Sets the client to be an attribute of the class
 
+    @app_commands.command(name="restart", description="restarts the bot")
+    async def restart(self, interaction: discord.Interaction):
+        if interaction.user.id != 923600698967461898:
+            await interaction.response.send_message("No.")
+            return
+        
+        await interaction.response.send_message("Restarting...")
+        os.execv(sys.executable, ["python"] + sys.argv)
+
     @app_commands.command(name="base64-encode", description="Encodes a given text")
     @app_commands.describe(text="The text to excode to base64")
     async def base64_encode(self, interaction: discord.Interaction, text: str) -> None:
@@ -28,7 +38,7 @@ class Utilities(commands.Cog):
             interaction (discord.Interaction): Provided automatically by discord, the interaction data from the command
             text (str): Text provided by the command user, to convert to base64
 
-        Returns (None): sends a discord embed as a result and returns nothing
+        Returns (None): sends a discord embed as a result and returns nothing 
         """
 
         await interaction.response.defer(ephemeral=True)  # Wait ephemerally
