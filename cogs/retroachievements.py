@@ -19,21 +19,27 @@ class Retroachievements(commands.Cog):
         # Runs a script in js to fetch the user data and captures it's stdout to display
         await interaction.response.defer()
 
-        stdout = subprocess.check_output(f"node cogs/retroachievements-js/getUserProfile.mjs {username}", shell = True)
-        modified_stdout: str = stdout.decode("utf-8")
-        dict_stdout: dict = json.loads(modified_stdout)
+        # Fetching data from javascript API
+        profile_stdout = subprocess.check_output(f"node cogs/retroachievements-js/getUserProfile.mjs {username}", shell = True)
+        modified_profile_stdout: str = profile_stdout.decode("utf-8")
+        dict_profile_stdout: dict = json.loads(modified_profile_stdout)
+        game_info_and_progress_stdout = subprocess.check_output(f"node cogs/retroachievements-js/getGameInfoAndUserProgress.mjs {username} {dict_profile_stdout.get('lastGameId')}", shell = True)
+        modified_game_info_and_progress_stdout: str = game_info_and_progress_stdout.decode("utf-8")
+        dict_game_info_and_progress_stdout: dict = json.loads(modified_game_info_and_progress_stdout)
 
-        profile_picture_url: str = "https://media.retroachievements.org" + dict_stdout.get("userPic")
-        member_since_as_datetime: datetime = datetime.strptime(dict_stdout.get("memberSince"), "%Y-%m-%d %H:%M:%S")
+        # Setting up embed variables
+        profile_picture_url: str = "https://media.retroachievements.org" + dict_profile_stdout.get("userPic")
+        member_since_as_datetime: datetime = datetime.strptime(dict_profile_stdout.get("memberSince"), "%Y-%m-%d %H:%M:%S")
 
-        output_embed: discord.Embed = discord.Embed(color = blue, title = "Retro Profile for " + dict_stdout.get("user"), description = "")
+        # Creating embed
+        output_embed: discord.Embed = discord.Embed(color = blue, title = "Retro Profile for " + dict_profile_stdout.get("user"), description = "")
         output_embed.set_thumbnail(url = profile_picture_url)
         output_embed.set_footer(text = f"Member since {member_since_as_datetime.strftime('%B %d, %Y')}")
-        output_embed.description += f"-# {dict_stdout.get('richPresenceMsg')}\n"
-        output_embed.description += f"**__{dict_stdout.get('totalPoints')}__ ({dict_stdout.get('totalTruePoints')})** total points.\n"
+        output_embed.description += f"Last Game Played: **{dict_game_info_and_progress_stdout.get('Title')}**\n"
+        output_embed.description += f"-# {dict_profile_stdout.get('richPresenceMsg')}\n"
+        output_embed.description += f"**__{dict_profile_stdout.get('totalPoints')}__ ({dict_profile_stdout.get('totalTruePoints')})** total points.\n"
 
-        # TODO: get game from dict_stdout.get("lastGameId") and find a nice way to display it
-
+        # Sending response
         await interaction.followup.send(embed = output_embed)
 
 async def setup(client: commands.Bot) -> None:
