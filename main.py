@@ -86,6 +86,7 @@ async def load_cogs(client: commands.Bot) -> None:
         if filename[-1] == "y":
             # ^^ If the cog ends in "y", checking if it's a python file
             await client.load_extension(f"cogs.{filename[:-3]}")
+            cprint(f"[+] loaded {filename}", BLUE)
             # ^^ Load the cog into the bot
 
 
