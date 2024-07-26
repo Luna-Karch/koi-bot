@@ -18,10 +18,10 @@ async function useApiKey(webApiKey) {
     // Get user profile
     const userProfile = await getUserProfile(authorization, {username: searchUsername});
 
-    console.log(userProfile);
+    console.log(JSON.stringify(userProfile, null, 2));
 }
 
-fs.readFile("./api_info.txt", "utf8", (err, data) => {
+fs.readFile("api_info.txt", "utf8", (err, data) => {
     if (err) {
         console.error(err);
 	return;
