@@ -30,12 +30,13 @@ class Retroachievements(commands.Cog):
         # Setting up embed variables
         profile_picture_url: str = "https://media.retroachievements.org" + dict_profile_stdout.get("userPic")
         member_since_as_datetime: datetime = datetime.strptime(dict_profile_stdout.get("memberSince"), "%Y-%m-%d %H:%M:%S")
+        mastery_percentage = int(dict_game_info_and_progress_stdout.get('userCompletionHardcore').split(".")[0])
 
         # Creating embed
         output_embed: discord.Embed = discord.Embed(color = blue, title = "Retro Profile for " + dict_profile_stdout.get("user"), description = "")
         output_embed.set_thumbnail(url = profile_picture_url)
         output_embed.set_footer(text = f"Member since {member_since_as_datetime.strftime('%B %d, %Y')}")
-        output_embed.description += f"Last Game Played: **{dict_game_info_and_progress_stdout.get('title')}**\n"
+        output_embed.description += f"Last Game Played: **{dict_game_info_and_progress_stdout.get('title')} ({mastery_percentage}%)**\n"
         output_embed.description += f"-# {dict_profile_stdout.get('richPresenceMsg')}\n"
         output_embed.description += f"**__{dict_profile_stdout.get('totalPoints')}__ ({dict_profile_stdout.get('totalTruePoints')})** total points.\n"
 
