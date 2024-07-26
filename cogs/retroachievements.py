@@ -35,7 +35,7 @@ class Retroachievements(commands.Cog):
         output_embed: discord.Embed = discord.Embed(color = blue, title = "Retro Profile for " + dict_profile_stdout.get("user"), description = "")
         output_embed.set_thumbnail(url = profile_picture_url)
         output_embed.set_footer(text = f"Member since {member_since_as_datetime.strftime('%B %d, %Y')}")
-        output_embed.description += f"Last Game Played: **{dict_game_info_and_progress_stdout.get('Title')}**\n"
+        output_embed.description += f"Last Game Played: **{dict_game_info_and_progress_stdout.get('title')}**\n"
         output_embed.description += f"-# {dict_profile_stdout.get('richPresenceMsg')}\n"
         output_embed.description += f"**__{dict_profile_stdout.get('totalPoints')}__ ({dict_profile_stdout.get('totalTruePoints')})** total points.\n"
 
