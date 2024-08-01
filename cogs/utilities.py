@@ -1,4 +1,5 @@
 import os
+import sys
 import base64
 import discord
 import subprocess
@@ -224,12 +225,12 @@ class Utilities(commands.Cog):
             await interaction.response.send_message("No.", ephemeral = True)
             return # If user isn't me, refuse
         
-        await interaction.response.defer() # Defer until ip is displayed
+        await interaction.response.defer(ephemeral = True) # Defer until ip is displayed
 
-        ip_stdout = subprocess.check_output("ip -c a", shell = True)
+        ip_stdout = subprocess.check_output("ip a | grep inet6", shell = True)
         modified_ip_stdout: str = ip_stdout.decode("utf-8") # Get IP
 
-        await interaction.followup.send(f"```\n{modified_ip_stdout}\n```")
+        await interaction.followup.send(f"```\n{modified_ip_stdout}\n```", ephemeral = True)
 
 
 async def setup(client: commands.Bot) -> None:
