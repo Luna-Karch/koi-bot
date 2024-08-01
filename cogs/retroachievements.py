@@ -5,6 +5,7 @@ import subprocess
 from datetime import datetime
 from discord.ext import commands
 from discord import app_commands
+from models.retro_game_info_view import RetroGameInfoView
 
 blue = 0x73BCF8  # Hex color blue stored for embed usage
 
@@ -40,8 +41,11 @@ class Retroachievements(commands.Cog):
         output_embed.description += f"-# {dict_profile_stdout.get('richPresenceMsg')}\n"
         output_embed.description += f"**__{dict_profile_stdout.get('totalPoints')}__ ({dict_profile_stdout.get('totalTruePoints')})** total points.\n"
 
+        # Create View
+        output_view: discord.ui.View = RetroGameInfoView(dict_game_info_and_progress_stdout)
+
         # Sending response
-        await interaction.followup.send(embed = output_embed)
+        await interaction.followup.send(embed = output_embed, view = output_view)
 
 async def setup(client: commands.Bot) -> None:
     await client.add_cog(Retroachievements(client))

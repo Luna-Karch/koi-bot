@@ -8,10 +8,9 @@ class RetroGameInfoView(discord.ui.View):
 
     @discord.ui.button(label = "More Game Information", style=discord.ButtonStyle.blurple)
     async def callback(self, button: discord.ui.Button, interaction: discord.Interaction):
+        await interaction.response.defer()
         print(self.dict_game_info_and_progress_stdout)
         # TODO: display game information nicely in an embed that gets sent upon clicking the button
-
-        # Disable button after click
-        button.disabled = True
-        await interaction.response.edit_message(view = self)
+        button.disabled = True # Disable the button after it is clicked
+        await interaction.followup.edit_message(view = self)
 
