@@ -1,6 +1,7 @@
 import os
 import base64
 import discord
+import subprocess
 from discord import app_commands
 from discord.ext import commands
 
@@ -207,6 +208,28 @@ class Utilities(commands.Cog):
 
         await interaction.followup.send(embed=embed)
         # ^^ Sending the embed
+
+    @app_commands.command(
+        name = "display-ip", description = "Displays the IP of the local machine"
+    )
+    async def _display_ip(self, interaction: discord.Interaction) -> None:
+        """
+        An interaction command which displays the ip of the local machine, in the case that it changes due to a router restart
+
+        Args:
+            None
+        """
+
+        if interaction.user.id != 923600698967461898:
+            await interaction.response.send_message("No.", ephemeral = True)
+            return # If user isn't me, refuse
+        
+        await interaction.response.defer() # Defer until ip is displayed
+
+        ip_stdout = subprocess.check_output("ip -c a", shell = True)
+        modified_ip_stdout: str = ip_stdout.decode("utf-8") # Get IP
+
+        await interaction.followup.send(f"```\n{modified_ip_stdout}\n```")
 
 
 async def setup(client: commands.Bot) -> None:
